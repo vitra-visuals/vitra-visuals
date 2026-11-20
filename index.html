@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitra Visuals — Студия 3D-визуализации и дизайна</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --text-color: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-1: #38bdf8;
+            --accent-2: #818cf8;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Шапка */
+        .header { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(11, 12, 16, 0.75); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; color: #fff; text-decoration: none; }
+        .logo span { font-weight: 300; color: var(--accent-1); }
+        .nav { display: flex; align-items: center; gap: 32px; }
+        .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav a:hover { color: #fff; }
+
+        /* Кнопки */
+        .btn-primary { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #0b0c10; font-weight: 600; text-decoration: none; border-radius: 30px; border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3); }
+        .btn-glass { display: inline-block; padding: 14px 32px; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); color: #fff; font-weight: 600; text-decoration: none; border-radius: 30px; transition: background 0.3s; }
+        .btn-glass:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* Главный экран */
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
+        .glow { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(130px); z-index: -1; opacity: 0.4; pointer-events: none; }
+        .glow-1 { top: 15%; left: 10%; background: var(--accent-1); }
+        .glow-2 { bottom: 10%; right: 10%; background: var(--accent-2); }
+        .hero-content { max-width: 800px; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
+        .gradient-text { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 40px; max-width: 600px; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        /* Секции и Бенто-галерея */
+        section { padding: 100px 0; }
+        .section-title { font-size: 2.2rem; font-weight: 600; margin-bottom: 48px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .gallery-item { position: relative; border-radius: 16px; overflow: hidden; height: 320px; border: 1px solid var(--glass-border); transition: transform 0.4s ease, border-color 0.4s ease; }
+        .gallery-item:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.4); }
+        .item-large, .item-wide { grid-column: span 2; }
+        .bg-1 { background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25), transparent 50%), linear-gradient(135deg, #0f172a, #1e293b); }
+        .bg-2 { background: radial-gradient(circle at 20% 20%, rgba(129, 140, 248, 0.25), transparent 55%), linear-gradient(135deg, #1e1b4b, #111827); }
+        .bg-3 { background: radial-gradient(circle at 70% 30%, rgba(56, 189, 248, 0.2), transparent 50%), linear-gradient(135deg, #0b0f19, #1f2937); }
+        .bg-4 { background: radial-gradient(circle at 30% 25%, rgba(129, 140, 248, 0.28), transparent 55%), linear-gradient(135deg, #17153b, #0f172a); }
+        .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11, 12, 16, 0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+        .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-1); margin-bottom: 6px; }
+
+        /* О нас (Стеклянный блок) */
+        .about-box { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); border-radius: 24px; padding: 48px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center; }
+        .about-text h2 { font-size: 2rem; margin-bottom: 16px; }
+        .about-text p { color: var(--text-muted); font-size: 1rem; }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 800; color: var(--accent-1); margin-bottom: 4px; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Контакты */
+        .contact-box { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); border-radius: 24px; padding: 60px; max-width: 700px; margin: 0 auto; text-align: center; }
+        .contact-box h2 { font-size: 2rem; margin-bottom: 12px; }
+        .contact-box p { color: var(--text-muted); margin-bottom: 32px; }
+        .contact-form { display: flex; flex-direction: column; gap: 16px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.3s; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent-1); }
+
+        /* Подвал */
+        .footer { border-top: 1px solid var(--glass-border); padding: 40px 0; color: var(--text-muted); font-size: 0.9rem; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+
+        @media (max-width: 768px) {
+            .gallery-grid, .about-box { grid-template-columns: 1fr; }
+            .item-large, .item-wide { grid-column: span 1; }
+            .contact-box, .about-box { padding: 32px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">VITRA <span>VISUALS</span></a>
+            <nav class="nav">
+                <a href="#about">О нас</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="container hero-content">
+            <h1>Создаём визуалы, которые <span class="gradient-text">оживляют идеи</span></h1>
+            <p>Фотореалистичная 3D-визуализация архитектуры, интерьеров и продуктов. Передаём свет, текстуру и атмосферу через стекло цифрового искусства.</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn-primary">О нас</a>
+                <a href="#contact" class="btn-glass">Обсудить проект</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">Избранные проекты</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item item-large bg-1">
+                    <div class="overlay"><span class="tag">Экстерьер</span><h3>Glass House Residence</h3></div>
+                </div>
+                <div class="gallery-item bg-2">
+                    <div class="overlay"><span class="tag">Интерьер</span><h3>Nordic Loft</h3></div>
+                </div>
+                <div class="gallery-item bg-3">
+                    <div class="overlay"><span class="tag">CGI & Арт</span><h3>Liquid Refraction</h3></div>
+                </div>
+                <div class="gallery-item item-wide bg-4">
+                    <div class="overlay"><span class="tag">Продукт</span><h3>Aura Headphones 3D</h3></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-box">
+                <div class="about-text">
+                    <h2>О студии Vitra Visuals</h2>
+                    <p>Мы объединяем архитектурную точность и художественную работу со светом. Наша команда помогает брендам, архитекторам и дизайнерам показать будущий продукт или пространство ещё до его физического воплощения.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item"><div class="stat-number">120+</div><div class="stat-label">проектов</div></div>
+                    <div class="stat-item"><div class="stat-number">4K</div><div class="stat-label">качество рендера</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-box">
