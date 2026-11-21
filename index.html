@@ -1,153 +1,254 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitra Visuals — Студия 3D-визуализации и дизайна</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0c10;
-            --text-color: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent-1: #38bdf8;
-            --accent-2: #818cf8;
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitra Visuals — Студия 3D-визуализации и дизайна</title>
+<link href="https://googleapis.com" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d090a;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --red1: #ef4444;
+    --red2: #991b1b;
+    --glass: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  /* Шапка */
+  .header { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(13, 9, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .header-in { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+  .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; color: #fff; text-decoration: none; }
+  .logo span { font-weight: 300; color: var(--red1); }
+  .nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
+  .nav a:hover { color: #fff; }
 
-        /* Шапка */
-        .header { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(11, 12, 16, 0.75); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
-        .header-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; color: #fff; text-decoration: none; }
-        .logo span { font-weight: 300; color: var(--accent-1); }
-        .nav { display: flex; align-items: center; gap: 32px; }
-        .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
-        .nav a:hover { color: #fff; }
+  /* Кнопки */
+  .btn-red { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, var(--red1), var(--red2)); color: #fff; font-weight: 600; text-decoration: none; border-radius: 30px; border: none; cursor: pointer; transition: 0.3s; }
+  .btn-red:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(239, 68, 68, 0.35); }
+  .btn-glass { display: inline-block; padding: 14px 32px; background: var(--glass); border: 1px solid var(--border); color: #fff; font-weight: 600; text-decoration: none; border-radius: 30px; transition: 0.3s; }
+  .btn-glass:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* Кнопки */
-        .btn-primary { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #0b0c10; font-weight: 600; text-decoration: none; border-radius: 30px; border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3); }
-        .btn-glass { display: inline-block; padding: 14px 32px; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); color: #fff; font-weight: 600; text-decoration: none; border-radius: 30px; transition: background 0.3s; }
-        .btn-glass:hover { background: rgba(255, 255, 255, 0.1); }
+  /* Главный экран */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
+  .glow { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(130px); z-index: -1; opacity: 0.4; pointer-events: none; }
+  .g1 { top: 15%; left: 10%; background: var(--red1); }
+  .g2 { bottom: 10%; right: 10%; background: var(--red2); }
+  .hero-content { max-width: 800px; }
+  .hero h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
+  .grad { background: linear-gradient(135deg, #f87171, var(--red1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { font-size: 1.15rem; color: var(--muted); margin-bottom: 40px; max-width: 600px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
 
-        /* Главный экран */
-        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
-        .glow { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(130px); z-index: -1; opacity: 0.4; pointer-events: none; }
-        .glow-1 { top: 15%; left: 10%; background: var(--accent-1); }
-        .glow-2 { bottom: 10%; right: 10%; background: var(--accent-2); }
-        .hero-content { max-width: 800px; }
-        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px; }
-        .gradient-text { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 40px; max-width: 600px; }
-        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+  /* Галерея */
+  section { padding: 100px 0; scroll-margin-top: 70px; }
+  .sec-title { font-size: 2.2rem; font-weight: 600; margin-bottom: 48px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card { position: relative; border-radius: 16px; overflow: hidden; height: 320px; border: 1px solid var(--border); transition: 0.4s; }
+  .card:hover { transform: translateY(-5px); border-color: rgba(239, 68, 68, 0.45); }
+  .span2 { grid-column: span 2; }
+  .bg1 { background: radial-gradient(circle at 80% 20%, rgba(239, 68, 68, 0.25), transparent 50%), linear-gradient(135deg, #1f1214, #2b1619); }
+  .bg2 { background: radial-gradient(circle at 20% 20%, rgba(185, 28, 28, 0.28), transparent 55%), linear-gradient(135deg, #261013, #140c0d); }
+  .bg3 { background: radial-gradient(circle at 70% 30%, rgba(239, 68, 68, 0.22), transparent 50%), linear-gradient(135deg, #170d0f, #261518); }
+  .bg4 { background: radial-gradient(circle at 30% 25%, rgba(185, 28, 28, 0.3), transparent 55%), linear-gradient(135deg, #291114, #140b0c); }
+  .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13, 9, 10, 0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+  .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--red1); margin-bottom: 6px; }
 
-        /* Секции и Бенто-галерея */
-        section { padding: 100px 0; }
-        .section-title { font-size: 2.2rem; font-weight: 600; margin-bottom: 48px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .gallery-item { position: relative; border-radius: 16px; overflow: hidden; height: 320px; border: 1px solid var(--glass-border); transition: transform 0.4s ease, border-color 0.4s ease; }
-        .gallery-item:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.4); }
-        .item-large, .item-wide { grid-column: span 2; }
-        .bg-1 { background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25), transparent 50%), linear-gradient(135deg, #0f172a, #1e293b); }
-        .bg-2 { background: radial-gradient(circle at 20% 20%, rgba(129, 140, 248, 0.25), transparent 55%), linear-gradient(135deg, #1e1b4b, #111827); }
-        .bg-3 { background: radial-gradient(circle at 70% 30%, rgba(56, 189, 248, 0.2), transparent 50%), linear-gradient(135deg, #0b0f19, #1f2937); }
-        .bg-4 { background: radial-gradient(circle at 30% 25%, rgba(129, 140, 248, 0.28), transparent 55%), linear-gradient(135deg, #17153b, #0f172a); }
-        .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11, 12, 16, 0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
-        .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-1); margin-bottom: 6px; }
+  /* О нас и квадратики */
+  .about-box { background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(16px); border-radius: 24px; padding: 48px; display: flex; justify-content: space-between; gap: 40px; align-items: center; flex-wrap: wrap; transition: 0.6s; }
+  .about-box.highlight { border-color: rgba(239, 68, 68, 0.8); box-shadow: 0 0 40px rgba(239, 68, 68, 0.25); transform: scale(1.01); }
+  .about-text { flex: 1 1 420px; }
+  .about-text h2 { font-size: 2rem; margin-bottom: 16px; }
+  .about-text p { color: var(--muted); }
+  .stats { display: flex; gap: 20px; flex: 1 1 360px; width: 100%; }
+  .stat { flex: 1; min-width: 150px; min-height: 155px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 18px; padding: 24px 16px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.3s; }
+  .stat:hover { transform: translateY(-4px); border-color: var(--red1); background: rgba(239, 68, 68, 0.16); }
+  .stat-num { font-size: 1.35rem; font-weight: 800; color: var(--red1); margin-bottom: 8px; line-height: 1.25; }
+  .stat-lbl { font-size: 0.9rem; color: #f3f4f6; font-weight: 500; }
 
-        /* О нас (Стеклянный блок) */
-        .about-box { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); border-radius: 24px; padding: 48px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center; }
-        .about-text h2 { font-size: 2rem; margin-bottom: 16px; }
-        .about-text p { color: var(--text-muted); font-size: 1rem; }
-        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .stat-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; text-align: center; }
-        .stat-number { font-size: 2rem; font-weight: 800; color: var(--accent-1); margin-bottom: 4px; }
-        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+  /* Контакты */
+  .contact-box { background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(16px); border-radius: 24px; padding: 60px; max-width: 700px; margin: 0 auto; text-align: center; }
+  .contact-box h2 { font-size: 2rem; margin-bottom: 12px; }
+  .contact-box p { color: var(--muted); margin-bottom: 32px; }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  input, textarea { width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-family: inherit; outline: none; transition: 0.3s; }
+  input:focus, textarea:focus { border-color: var(--red1); }
 
-        /* Контакты */
-        .contact-box { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); border-radius: 24px; padding: 60px; max-width: 700px; margin: 0 auto; text-align: center; }
-        .contact-box h2 { font-size: 2rem; margin-bottom: 12px; }
-        .contact-box p { color: var(--text-muted); margin-bottom: 32px; }
-        .contact-form { display: flex; flex-direction: column; gap: 16px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.3s; }
-        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent-1); }
+  /* Красивые блоки Discord в подвале */
+  .footer { border-top: 1px solid var(--border); padding: 80px 0 40px; color: var(--muted); font-size: 0.9rem; }
+  .ds-header { text-align: center; margin-bottom: 40px; }
+  .ds-sub { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red1); margin-bottom: 8px; }
+  .ds-title { font-size: 2rem; color: #fff; font-weight: 700; }
+  .ds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 55px; }
+  .ds-card { position: relative; overflow: hidden; background: linear-gradient(155deg, rgba(239, 68, 68, 0.11) 0%, rgba(16, 11, 13, 0.92) 100%); border: 1px solid rgba(239, 68, 68, 0.28); backdrop-filter: blur(14px); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; text-decoration: none; color: inherit; transition: 0.35s ease; }
+  .ds-card:hover { transform: translateY(-6px); border-color: var(--red1); box-shadow: 0 14px 34px rgba(239, 68, 68, 0.24); }
+  .ds-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .ds-badge { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, var(--red1), var(--red2)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1rem; box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35); }
+  .ds-status { font-size: 0.72rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; }
+  .ds-card h3 { color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+  .ds-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .ds-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: #fff; font-weight: 600; font-size: 0.88rem; transition: 0.3s; }
+  .ds-card:hover .ds-btn { background: var(--red1); border-color: var(--red1); }
+  .footer-bot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
 
-        /* Подвал */
-        .footer { border-top: 1px solid var(--glass-border); padding: 40px 0; color: var(--text-muted); font-size: 0.9rem; }
-        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-
-        @media (max-width: 768px) {
-            .gallery-grid, .about-box { grid-template-columns: 1fr; }
-            .item-large, .item-wide { grid-column: span 1; }
-            .contact-box, .about-box { padding: 32px 20px; }
-        }
-    </style>
+  @media (max-width: 900px) { .ds-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .span2 { grid-column: span 1; }
+    .about-box, .contact-box { padding: 32px 20px; }
+    .stats { flex-direction: column; }
+  }
+</style>
 </head>
+<link rel="stylesheet" href="main.css">
 <body>
 
-    <header class="header">
-        <div class="container header-container">
-            <a href="#" class="logo">VITRA <span>VISUALS</span></a>
-            <nav class="nav">
-                <a href="#about">О нас</a>
-            </nav>
-        </div>
-    </header>
+<header class="header">
+  <div class="container header-in">
+    <a href="#" class="logo">VITRA <span>VISUALS</span></a>
+  </div>
+</header>
 
-    <section class="hero">
-        <div class="glow glow-1"></div>
-        <div class="glow glow-2"></div>
-        <div class="container hero-content">
-            <h1>Создаём визуалы, которые <span class="gradient-text">оживляют идеи</span></h1>
-            <p>Фотореалистичная 3D-визуализация архитектуры, интерьеров и продуктов. Передаём свет, текстуру и атмосферу через стекло цифрового искусства.</p>
-            <div class="hero-buttons">
-                <a href="#about" class="btn-primary">О нас</a>
-                <a href="#contact" class="btn-glass">Обсудить проект</a>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="container hero-content">
+    <h1>Создаём визуалы, которые <span class="grad">оживляют идеи</span></h1>
+    <p>+вайб всегда, когда играете с нашими визуалами.</p>
+    
+    <div class="hero-btns">     
+      <a href="#products" class="btn-red scroll-btn">Купить продукты</a>
+            <a href="#contact" class="btn-glass scroll-btn">Обсудить проект</a>
 
-    <section id="portfolio" class="portfolio">
-        <div class="container">
-            <h2 class="section-title">Избранные проекты</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item item-large bg-1">
-                    <div class="overlay"><span class="tag">Экстерьер</span><h3>Glass House Residence</h3></div>
-                </div>
-                <div class="gallery-item bg-2">
-                    <div class="overlay"><span class="tag">Интерьер</span><h3>Nordic Loft</h3></div>
-                </div>
-                <div class="gallery-item bg-3">
-                    <div class="overlay"><span class="tag">CGI & Арт</span><h3>Liquid Refraction</h3></div>
-                </div>
-                <div class="gallery-item item-wide bg-4">
-                    <div class="overlay"><span class="tag">Продукт</span><h3>Aura Headphones 3D</h3></div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <a href="#about" class="btn-glass scroll-btn">О нас</a>
+    </div>
+    </div>
+  </div>
+</section>
 
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-box">
-                <div class="about-text">
-                    <h2>О студии Vitra Visuals</h2>
-                    <p>Мы объединяем архитектурную точность и художественную работу со светом. Наша команда помогает брендам, архитекторам и дизайнерам показать будущий продукт или пространство ещё до его физического воплощения.</p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-item"><div class="stat-number">120+</div><div class="stat-label">проектов</div></div>
-                    <div class="stat-item"><div class="stat-number">4K</div><div class="stat-label">качество рендера</div></div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="products">
+  <div class="container">
+    <h2 class="sec-title">Купить наши продукты</h2>
+    <div class="prod-grid">
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="contact-box">
+      <div class="prod-card">
+        <div>
+          <div class="prod-top">
+            <span class="tag">Базовый</span>
+            <span class="prod-price">99 ₽</span>
+          </div>
+          <h3>Vitra 1 месяц</h3>
+          <p>подписка на месяц.</p>
+        </div>
+        <a href="https://discord.gg/V764AgEJsH" target="_blank" class="btn-red prod-btn">Купить в Discord ↗</a>
+      </div>
+
+      <div class="prod-card prod-hit">
+        <div>
+          <div class="prod-top">
+            <span class="tag">Хит продаж</span>
+            <span class="prod-price">199 ₽</span>
+          </div>
+          <h3>Vitra СЕЗОН</h3>
+          <p>подписка на сезон.</p>
+        </div>
+        <a href="https://discord.gg/V764AgEJsH" target="_blank" class="btn-red prod-btn">Купить в Discord ↗</a>
+      </div>
+
+      <div class="prod-card">
+        <div>
+          <div class="prod-top">
+            <span class="tag">Навсегда</span>
+            <span class="prod-price">399 ₽</span>
+          </div>
+          <h3>Vitra Навсегда</h3>
+          <p>Пожизненный доступ.</p>
+        </div>
+        <a href="https://discord.gg/V764AgEJsH" target="_blank" class="btn-red prod-btn">Купить в Discord ↗</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="about">
+  <div class="container">
+    <div class="about-box" id="about-card">
+      <div class="about-text">
+        <h2>О студии Vitra Visuals</h2>
+        <p>Наши визуалы самые дешёвые из конкурентов и включают более 60+ функций.А также мы самые +вайбовые:)</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">Самые дешёвые</div>
+          <div class="stat-lbl">из конкурентов</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">60+</div>
+          <div class="stat-lbl">функций</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="ds-header">
+      <span class="ds-sub">Discord Комьюнити</span>
+      <h3 class="ds-title">Присоединяйся к нашему серверу</h3>
+    </div>
+
+    <div class="ds-grid">
+      <a href="https://discord.gg/ucXZxJ6ZaK" target="_blank" class="ds-card">
+        <div>
+          <div class="ds-top"><div class="ds-badge">DS</div><span class="ds-status">● Online</span></div>
+          <h3>Главный сервер</h3>
+          <p>Основной чат Vitra Visuals: общение с участниками, обсуждение идей и поиск вдохновения.</p>
+        </div>
+        <div class="ds-btn"><span>Войти на сервер</span><span>↗</span></div>
+      </a>
+
+      <a href="https://discord.com/channels/1573388182266052638/1573388441742348429" target="_blank" class="ds-card">
+        <div>
+          <div class="ds-top"><div class="ds-badge">24/7</div><span class="ds-status">Поддержка</span></div>
+          <h3>Тикеты и заказы</h3>
+          <p>Быстрый заказ визуалов по самым низким ценам и оперативная помощь по настройке.</p>
+        </div>
+        <div class="ds-btn"><span>Открыть тикет</span><span>↗</span></div>
+      </a>
+
+      <a href="https://discord.com/channels/1573388182266052638/1573388441742348429" target="_blank" class="ds-card">
+        <div>
+          <div class="ds-top"><div class="ds-badge">60+</div><span class="ds-status">Релизы</span></div>
+          <h3>Обновления и новости</h3>
+          <p>Свежие анонсы, добавление новых функций из списка 60+ и закрытые акции для своих.</p>
+        </div>
+        <div class="ds-btn"><span>Смотреть новости</span><span>↗</span></div>
+      </a>
+    </div>
+
+    <div class="footer-bot">
+      <div class="logo">VITRA <span>VISUALS</span></div>
+      <p>© 2026 Vitra Visuals. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
